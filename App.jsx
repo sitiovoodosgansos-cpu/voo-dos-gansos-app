@@ -23,7 +23,34 @@ const fmtDate = (str) => {
 };
 const fmtDateStr = (d) => d ? d.toLocaleDateString("pt-BR") : "";
 const uid = () => `_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+const STORAGE_KEY = "voo_dos_gansos_v2";
 
+const loadState = () => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+
+    // Rehidrata datas (sales.date vem como string)
+    if (Array.isArray(s.sales)) {
+      s.sales = s.sales.map(x => ({
+        ...x,
+        date: x.date ? new Date(x.date) : null,
+      }));
+    }
+    return s;
+  } catch (e) {
+    return null;
+  }
+};
+
+const saveState = (state) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {
+    // se o navegador bloquear ou lotar espaço, ignora
+  }
+};
 /* ═══════════════════════════════════════════
    THEME — LIGHT, Duolingo/Ornament inspired
    ═══════════════════════════════════════════ */
