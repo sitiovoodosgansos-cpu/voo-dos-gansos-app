@@ -246,7 +246,9 @@ const [investments, setInvestments] = useState(initial?.investments || INIT_INVE
   const showToast = (msg,type="success") => { setToast({msg,type}); setTimeout(()=>setToast(null),3000); };
   const getAvatar = (name) => name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
   const getColor = (idx) => C.palette[idx % C.palette.length];
-
+useEffect(() => {
+  saveState({ investors, birds, sales, investments });
+}, [investors, birds, sales, investments]);
   // ── CSV PARSER ──
   const parseCSV = (text) => {
     const lines = text.split("\n").filter(l=>l.trim());
