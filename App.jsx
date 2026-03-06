@@ -229,10 +229,12 @@ const S = {
    ═══════════════════════════════════════════ */
 export default function App() {
   const [page, setPage] = useState("dashboard");
-  const [investors, setInvestors] = useState(INIT_INVESTORS);
-  const [birds, setBirds] = useState(INIT_BIRDS);
-  const [sales, setSales] = useState([]);
-  const [investments, setInvestments] = useState(INIT_INVESTMENTS);
+  const initial = useMemo(() => loadState(), []);
+
+const [investors, setInvestors] = useState(initial?.investors || INIT_INVESTORS);
+const [birds, setBirds] = useState(initial?.birds || INIT_BIRDS);
+const [sales, setSales] = useState(initial?.sales || []);
+const [investments, setInvestments] = useState(initial?.investments || INIT_INVESTMENTS);
   const [selInv, setSelInv] = useState(null);
   const [modal, setModal] = useState(null); // 'addInv','addBird','addInvest','import','editInv','editBird'
   const [editInvData, setEditInvData] = useState(null);
